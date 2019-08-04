@@ -1,0 +1,30 @@
+Altium Designer Pick and Place Locations
+
+
+========================================================================================================================
+File Design Information:
+
+Date:       04.08.19
+Time:       10:19
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mm
+
+Designator Comment                     Layer    Footprint                       Center-X(mm) Center-Y(mm) Rotation Description                          
+R3         "Generic resistor"          TopLayer 0805_RESISTOR                   9.1440       19.0500      270      "Resistor 0805 330R 1%"              
+R4         "Generic resistor"          TopLayer 0805_RESISTOR                   11.0490      19.0500      90       "Resistor 0805 10k 1%"               
+R5         "Generic resistor"          TopLayer 0805_RESISTOR                   12.9540      19.0500      270      "Resistor 0805 1k 1%"                
+R2         "Generic resistor"          TopLayer 0805_RESISTOR                   7.2390       19.0500      270      "Resistor 0805 1k 1%"                
+R1         "Generic resistor"          TopLayer 0805_RESISTOR                   5.3340       19.0500      270      "Resistor 0805 1k 1%"                
+J2         "HEADER 2x3 MALE"           TopLayer HEADER-MALE-STRAIGHT-2x3-LOCKED 9.1440       3.4290       360      "Header male straight 2x3"           
+IC4        74LVC1G125                  TopLayer SOT-353                         13.5890      23.7490      90       "Singe Buffer with 3-State Output"   
+D3         Red                         TopLayer LED-RED-0805                    16.1290      3.4290       270      "LED 0805 Red"                       
+D2         Red                         TopLayer LED-RED-0805                    2.1590       3.4290       270      "LED 0805 Red"                       
+D1         Green                       TopLayer LED-GREEN-0805                  2.1590       12.1920      270      "LED 0805 Green"                     
+C4         "Generic bipolar capacitor" TopLayer 0805_CAPACITOR                  11.0490      23.7490      270      "Cap Ceramic 0805 100n 50V X7R"      
+C3         "Generic bipolar capacitor" TopLayer 0805_CAPACITOR                  7.2390       23.7490      90       "Cap Ceramic 0805 100n 50V X7R"      
+C1         "Generic bipolar capacitor" TopLayer 0805_CAPACITOR                  4.4450       28.3210      90       "Cap Ceramic 0805 1u 16V Y5V"        
+C2         "Generic bipolar capacitor" TopLayer 0805_CAPACITOR                  13.8430      28.3210      90       "Cap Ceramic 0805 1u 16V Y5V"        
+IC3        74LVC1G125                  TopLayer SOT-353                         4.6990       23.7490      270      "Singe Buffer with 3-State Output"   
+IC1        1117-3.3                    TopLayer SOT-223                         9.1440       30.8610      360      "Positive 3.3V regulator 1A SOT-223" 
+J1         "HEADER 1x3 MALE"           TopLayer HEADER-MALE-STRAIGHT-1x3-LOCKED 9.2710       12.7000      360      "Header male straight 1x3"           

@@ -1,5 +1,5 @@
 # microUPDI
-DIY mEDBG programmer with open source hardware!
+DIY UPDI programmer with open source hardware!
 
 
 ### Hardware
@@ -46,9 +46,8 @@ $ avrdude -Cavrdude.conf -v -patmega4809 -cxplainedmini_updi -Pusb -b115200
 
 ### Pinout
 The UPDI pinout is based on the standard 6-pin ISP pinout. It's revese insertion tolerant, just like the "old" ISP interface. It's also compatible with the Atmel ICE UPDI pinout. This means if you've designed a board to work with this (microUPDI) programmer, you can safely connect and use an Atmel ICE programmer without damaging your board or the ICE programmer.<br/>
-
-Note that this shows the pinout **on the programmer, not the target**. Make sure you connect the targets RXD line to the programmers TXD line, and vice versa.<br/>
+**Note that the RXD and TXD lines are swapped on the target.**
 
 *Click to enlarge:*
 
-<img src="https://i.imgur.com/zmy97co.png" width="300">
+<img src="https://i.imgur.com/pUzZbEq.png" width="500">

@@ -24,7 +24,8 @@ The microUPDI programmer is based on the [Sparkfun Pro Micro 5V/16MHz board](htt
 
 
 ## Pro Micro hardware modification
-In order to get the mEDBG to run properly the AREF pin on the Arduino Pro Micro has to be connected to 5V. Sadly, the AREF pin is not available as a physical pin, so we have to do a small modification to the board itself. Solder a tiny wire from the capacitor to pin 1 on the voltage regulator as seen in the picture below. If this is not done you will [experience issues when trying to communicate with the target](https://www.avrfreaks.net/forum/standalone-medbg-updi-programmer-and-issues-avrdude). <br/>
+In order to get the mEDBG to run properly the AREF pin on the Arduino Pro Micro has to be connected to 5V. Sadly, the AREF pin is not available as a physical pin, so we have to do a small modification to the board itself. Solder a tiny wire from the capacitor to pin 1 on the voltage regulator as seen in the picture below. If this is not done you will [experience issues when trying to communicate with the target](https://www.avrfreaks.net/forum/standalone-medbg-updi-programmer-and-issues-avrdude).
+Note that by doing this modification you can't apply voltages higher than 5V to the *Raw* pin on the Pro Micro. But you would most likely not need the *Raw* pin in this application anyways.<br/>
 
 *Click to enlarge:*
 
@@ -62,8 +63,9 @@ Open Arduino IDE, and a new category in the boards menu called "microUPDI Firmwa
 * Congratulations, you now have a working UPDI programmer!
 
 ### Usage
-After the Pro Micro is flashed with mEDBG firmware it will present itself to the computer as an *mEDBG CMSIS-DAP* device. In Atmel Studio it will show up as a generic mEDBG device, while in Arduino IDE it will show up as an Arduino UNO WiFi Rev2.
+After the Pro Micro is flashed with mEDBG firmware it will present itself to the computer as an **mEDBG CMSIS-DAP** device. In Atmel Studio it will show up as a generic mEDBG device, while in Arduino IDE it will show up as an **Arduino UNO WiFi Rev2*.
 
+If you're using the microUPDI programmer with [megaTinyCore](https://github.com/SpenceKonde/megaTinyCore) you just select the  *Onboard Atmel mEDBG* option in the Programmers menu. For [MegaCoreX](https://github.com/MCUdude/MegaCoreX) it's *Atmel mEDBG (microUPDI)*.
 
 Here's an example command on how you can communicate with an ATmega4809 through Avrdude:
 ```

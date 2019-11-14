@@ -1,5 +1,6 @@
 # microUPDI
-DIY UPDI programmer with open source hardware!
+DIY UPDI programmer with open source hardware.  
+**Available for purchase at my [Tindie store](https://www.tindie.com/products/MCUdude/microupdi-programmer/)!**
 
 
 ## Hardware

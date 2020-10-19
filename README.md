@@ -1,5 +1,5 @@
 # microUPDI
-DIY UPDI programmer with open source hardware.  
+DIY UPDI programmer with open source hardware.
 **Available for purchase at my [Tindie store](https://www.tindie.com/products/MCUdude/microupdi-programmer/)!**
 
 
@@ -22,15 +22,6 @@ The microUPDI programmer is based on the [Sparkfun Pro Micro 5V/16MHz board](htt
   - Programming -> Activity indicator
 * Small in size (18.3mm x 49.6mm)
 * **Open source hardware!**
-
-
-## Pro Micro hardware modification
-In order to get the mEDBG to run properly the AREF pin on the Arduino Pro Micro has to be connected to 5V. Sadly, the AREF pin is not available as a physical pin, so we have to do a small modification to the board itself. Solder a tiny wire from the capacitor to pin 1 on the voltage regulator as seen in the picture below. If this is not done you will [experience issues when trying to communicate with the target](https://www.avrfreaks.net/forum/standalone-medbg-updi-programmer-and-issues-avrdude).
-Note that by doing this modification you can't apply voltages higher than 5V to the *Raw* pin on the Pro Micro. But you would most likely not need the *Raw* pin in this application anyways.<br/>
-
-*Click to enlarge:*
-
-<img src="https://i.imgur.com/5Pwiufn.jpg" width="400">
 
 
 ## Firmware

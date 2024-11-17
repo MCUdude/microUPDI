@@ -28,7 +28,7 @@ The microUPDI programmer is based on the [Sparkfun Pro Micro 5V/16MHz board](htt
 To flash the Pro Micro with mEDBG firmware you'll have to install a hardware package to Arduino IDE.
 
 #### Boards Manager Installation
-* Open the Arduino IDE 1.8.x. IDE 2.x is not yet supported.
+* Open the Arduino IDE
 * Open the **File > Preferences** menu item.
 * Enter the following URL in **Additional Boards Manager URLs**:
     ```
@@ -72,3 +72,119 @@ The UPDI pinout is based on the standard 6-pin ISP pinout. It's reverse insertio
 *Click to enlarge:*
 
 <img src="https://i.imgur.com/pUzZbEq.png" width="500">
+
+
+### Tinkering with the EEPROM content
+The EEPROM content of the microUPDI content contains things like serial number, kit name, manufacturer string, target device ID, and name. The content is loosely documented in [this Avrfreaks forum post](https://www.avrfreaks.net/s/topic/a5C3l000000UkjBEAS/t192342?comment=P-1635680).
+
+<details>
+<summary><b>mEDBG EEPROM mapping</b></summary>
+
+```
+MEDBG_CONFIG_SERIAL_NUMBER_BANK = 0x00
+MEDBG_CONFIG_SERIAL_NUMBER_ADDRESS = 0x04
+MEDBG_CONFIG_SERIAL_NUMBER_LEN = 20
+ 
+MEDBG_CONFIG_KIT_NAME_BANK = 0x00
+MEDBG_CONFIG_KIT_NAME_ADDRESS = 0x18
+MEDBG_CONFIG_KIT_NAME_LEN_MAX = 50
+ 
+MEDBG_CONFIG_MANUFACTURER_NAME_BANK = 0x00
+MEDBG_CONFIG_MANUFACTURER_NAME_ADDRESS = 0x4A
+MEDBG_CONFIG_MANUFACTURER_NAME_LEN_MAX = 50
+ 
+MEDBG_CONFIG_TARGET_NAME_BANK = 0x00
+MEDBG_CONFIG_TARGET_NAME_ADDRESS = 0x7C
+MEDBG_CONFIG_TARGET_NAME_LEN_MAX = 30
+ 
+MEDBG_CONFIG_FIRE_BANK = 0x00
+MEDBG_CONFIG_FIRE_ADDRESS = 0xFE
+MEDBG_CONFIG_FIRE_LEN = 1
+ 
+MEDBG_CONFIG_FIRE_ISPDW_VALUE = 0xFF
+MEDBG_CONFIG_FIRE_SWD_VALUE = 0xFE
+MEDBG_CONFIG_FIRE_TPI_VALUE = 0XFD
+MEDBG_CONFIG_FIRE_UPDI_VALUE = 0xFC
+ 
+MEDBG_CONFIG_SUFFER_BANK = 0x01
+MEDBG_CONFIG_SUFFER_ADDRESS = 0x220
+MEDBG_CONFIG_SUFFER_LEN = 1
+```
+
+</details>
+
+It's very easy to use Avrdude (8.0 or newer is highly recommended) to change the content. Simply connect an ISP programmer, connect it to the ISP connector on the underside of the microUPDI programmer (a 6-pin male header can be press-fitted), and run Avrdude. In the example below I'm using the USBasp programmer with Avrdude 8.0 to view and modify the EEPROM content:
+
+```
+$ avrdude -c usbasp -p atmega32u4 -t
+
+avrdude> read eeprom 0 256 # Read 256 bytes from EEPROM starting from address 0
+Reading | ################################################## | 100% 0.09 s 
+0000  ff ff ff ff 4d 49 43 52  4f 55 50 44 49 50 52 4f  |....MICROUPDIPRO|
+0010  47 52 41 4d 4d 45 52 58  6d 69 63 72 6f 55 50 44  |GRAMMERXmicroUPD|
+0020  49 20 70 72 6f 67 72 61  6d 6d 65 72 00 ff ff ff  |I programmer....|
+0030  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0040  ff ff ff ff ff ff ff ff  ff ff 4d 69 63 72 6f 63  |..........Microc|
+0050  68 69 70 00 ff ff ff ff  ff ff ff ff ff ff ff ff  |hip.............|
+0060  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0070  ff ff ff ff ff ff ff ff  ff ff ff ff 41 54 6d 65  |............ATme|
+0080  67 61 34 38 30 39 00 ff  ff ff ff ff ff ff ff ff  |ga4809..........|
+0090  ff ff ff ff ff ff ff ff  ff ff 00 1e 96 51 ff ff  |.............Q..|
+00a0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00b0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00c0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00d0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00e0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00f0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff fc ff  |................|
+
+avrdude> write eeprom 4 20 0xff ... # Wipe the existing serial number by writing 20 0xff bytes to the EEPROM, starting from address 4
+Caching | ################################################## | 100% 0.00 s
+
+avrdude> read eeprom 0 256
+Reading | ################################################## | 100% 0.00 s 
+0000  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0010  ff ff ff ff ff ff ff ff  6d 69 63 72 6f 55 50 44  |........microUPD|
+0020  49 20 70 72 6f 67 72 61  6d 6d 65 72 00 ff ff ff  |I programmer....|
+0030  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0040  ff ff ff ff ff ff ff ff  ff ff 4d 69 63 72 6f 63  |..........Microc|
+0050  68 69 70 00 ff ff ff ff  ff ff ff ff ff ff ff ff  |hip.............|
+0060  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0070  ff ff ff ff ff ff ff ff  ff ff ff ff 41 54 6d 65  |............ATme|
+0080  67 61 34 38 30 39 00 ff  ff ff ff ff ff ff ff ff  |ga4809..........|
+0090  ff ff ff ff ff ff ff ff  ff ff 00 1e 96 51 ff ff  |.............Q..|
+00a0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00b0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00c0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00d0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00e0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00f0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff fc ff  |................|
+
+avrdude> write eeprom 4 "MYSERIALNUMBER" # Write new serial number to EEPROM, starting from address 4
+Caching | ################################################## | 100% 0.00 s
+
+avrdude> read eeprom 0 256
+Reading | ################################################## | 100% 0.00 s 
+0000  ff ff ff ff 4d 59 53 45  52 49 41 4c 4e 55 4d 42  |....MYSERIALNUMB|
+0010  45 52 00 ff ff ff ff ff  6d 69 63 72 6f 55 50 44  |ER......microUPD|
+0020  49 20 70 72 6f 67 72 61  6d 6d 65 72 00 ff ff ff  |I programmer....|
+0030  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0040  ff ff ff ff ff ff ff ff  ff ff 4d 69 63 72 6f 63  |..........Microc|
+0050  68 69 70 00 ff ff ff ff  ff ff ff ff ff ff ff ff  |hip.............|
+0060  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+0070  ff ff ff ff ff ff ff ff  ff ff ff ff 41 54 6d 65  |............ATme|
+0080  67 61 34 38 30 39 00 ff  ff ff ff ff ff ff ff ff  |ga4809..........|
+0090  ff ff ff ff ff ff ff ff  ff ff 00 1e 96 51 ff ff  |.............Q..|
+00a0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00b0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00c0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00d0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00e0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00f0  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff fc ff  |................|
+
+avrdude> quit
+Synching cache to device ... 
+Writing | ################################################## | 100% 0.04 s 
+
+Avrdude done.  Thank you.
+```
+

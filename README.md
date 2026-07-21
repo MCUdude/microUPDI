@@ -22,6 +22,7 @@ The microUPDI programmer is based on the [Sparkfun Pro Micro 5V/16MHz board](htt
   - Programming -> Activity indicator
 * Small in size (18.3mm x 49.6mm)
 * **Open source hardware!**
+* Now you can use microUPDI as a **hardware debugger** by employing [PyAvrOCD](https://pyavrocd.io).
 
 
 ## Firmware
